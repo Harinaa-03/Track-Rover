@@ -1,0 +1,101 @@
+#define motor1 D5
+#define motor2 D6
+#define motor3 D7
+#define motor4 D8
+
+#define irright D0
+#define irleft A0
+
+
+#define pwm1 D1
+#define pwm2 D2
+
+
+void setup() {
+  // put your setup code here, to run once:
+  Serial.begin(9600);
+Serial.println("setup");
+  pinMode(motor1,OUTPUT);
+  pinMode(motor2,OUTPUT);
+  pinMode(motor3,OUTPUT);
+  pinMode(motor4,OUTPUT);
+
+ // pinMode(pwm1,OUTPUT);
+  pinMode(pwm2,OUTPUT);
+
+  pinMode(irleft,INPUT);
+  pinMode(irright,INPUT);
+    
+  digitalWrite(motor1,LOW);
+  digitalWrite(motor2,LOW);
+  digitalWrite(motor3,LOW);
+  digitalWrite(motor4,LOW);
+
+  analogWrite(pwm1,150);
+  analogWrite(pwm2,150);
+ 
+
+}
+
+void loop() {
+  // put your main code here, to run repeatedly:
+
+Serial.println("loop");
+
+Serial.print("IR R: ");
+Serial.println(digitalRead(irright));
+Serial.print("IR L: ");
+Serial.print(analogRead(irleft));
+
+ if(analogRead(irleft)<=100 && digitalRead(irright)==LOW){forward(); }
+ else if(analogRead(irleft)<=100 && digitalRead(irright)==HIGH){left();}
+ else if(analogRead(irleft)>=1000 && digitalRead(irright)==LOW){right(); }
+ else{ stop1();}
+    
+delay(50);
+}
+
+void reverse()
+  {
+    
+   digitalWrite(motor1,HIGH);
+   digitalWrite(motor2,LOW);
+   digitalWrite(motor3,HIGH);
+   digitalWrite(motor4,LOW);
+  }
+
+void forward()
+  {
+    Serial.println("forward");
+   digitalWrite(motor1,LOW);
+   digitalWrite(motor2,HIGH);
+   digitalWrite(motor3,LOW);
+   digitalWrite(motor4,HIGH);
+  }
+
+  void right()
+  {
+    Serial.println("right");
+   digitalWrite(motor1,HIGH);
+   digitalWrite(motor2,LOW);
+   digitalWrite(motor3,LOW);
+   digitalWrite(motor4,HIGH);
+  }
+
+  void left()
+  {
+    Serial.println("left");
+   digitalWrite(motor1,LOW);
+   digitalWrite(motor2,HIGH);
+   digitalWrite(motor3,HIGH);
+   digitalWrite(motor4,LOW);
+  }
+
+  void stop1()
+  {
+    Serial.println("stop");
+   digitalWrite(motor1,LOW);
+   digitalWrite(motor2,LOW);
+   digitalWrite(motor3,LOW);
+   digitalWrite(motor4,LOW);
+  }
